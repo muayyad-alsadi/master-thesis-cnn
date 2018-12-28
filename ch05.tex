@@ -1,0 +1,118 @@
+\chapter{Discussion and Recommendations}
+
+\section{Results}
+
+Given Inception V1 model trained to solve ImageNet one thousand classes task which have accuracy of 69.8\% in that task.
+Transferring knowledge from that task to solve the task of identifying 229 car models,
+high accuracy was achieved as seen in table \ref{table:final-car-models-metrics}.
+
+Top 1 accuracy of 81.17\% with very close Precision and Recall values indicates
+that it does not suffer from either false positive problem nor false negative problem.
+Compared to the accuracy of original source model (69.8\%)
+and the complexity of the target task this is an impressive result.
+
+Another important aspect of this work, that it's expandable, starting with only 110 car models,
+then expanded it to 116, 134, 205 and finally to 229 car models.
+Each expansion process took only hours.
+
+\begin{table*}[!htbp]\caption{Final model performance for ``Car-Models-229'' Task}\label{table:final-car-models-metrics}
+\centering
+\begin{tabular}{lr}
+\toprule
+Metric            &  Value \\
+\midrule
+Top 1 & 81.17\% \\
+Top 2 & 88.20\% \\
+Top 3 & 90.94\% \\
+Top 5 & 93.67\% \\
+Precision & 80.89\% \\ 
+Recall & 79.70\% \\
+F1-Score & 80.29\% \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Model Choice}
+
+There are so many pre-trained models to choose from. Model of choice in this research is Inception v1\autocite{szegedy2015going}
+due to its relatively small number of multiplication-accumulation operations
+that falls in the same level of MobileNet, but it's both faster to train, converge and resulted in higher accuracy.
+The reasons for not using more sophisticated later versions of Inception like v3, v4 and ResNet version of Inception
+that those models are more complicated and require more time to converge,
+Using Inception v1, top-1 accuracy of 82\%  was achieved 
+within only one hour on car sides dataset as we have seen before in section\ref{fine-car-sides}.
+Using more advanced model was a waste of resources for this kind of problem,
+for example, Inception v4 has seven times more weights,
+and nine times more multiplication-accumulation operation than Inception V1.
+VGG has inferior performance in both speed and accuracy.
+
+DenseNet\autocite{huang2016densely} is not suitable for knowledge transfer because most weights are
+in last layers, transferring weights to inner layers, then training last layer would mean training most weights.
+
+NASNet was evaluated but that resulted in worst speed than ``Inception v1''
+despite the promised speed due to smaller number of parameters and weights, and the use of same pre-processing.
+This might be attributed to a problem in the implementation due to being very new model.
+
+When MobileNet was evaluated it was at version 1.0, it was faster inference than Inception v1,
+but it had inferior accuracy and training speed was on bar with Inception v1.
+MobileNet 2.0\autocite{sandler2018inverted} was not evaluated as it came after writing most of this research.
+
+\section{Proposed Procedure}
+
+The researcher demonstrated that cosine similarity works well on signal going into last layer
+and weights vectors forming weights matrix, and thus can be used to craft weights matrix for different tasks like
+
+\begin{itemize}
+\item add ``none'' class.
+\item used for initialization.
+\item identify most similar classes in the 1K-class ImageNet to be used in category adaptation.
+\end{itemize}
+
+A method to extend an existing model to add more classes was demonstrated,
+and how that was very effective. ``Introduced Confusion'',
+by duplicating weights vector of a similar class for the new class,
+then fine-tune it, over-sampling those known injected confusion, under-sampling other classes,
+for enough steps to remove confusion.
+The researcher have successfully extended
+A network that recognize different 110 car models was successfully extended 
+into recognizing 134 car models (adding more 24 classes), without repeating weeks of training.
+One can add more and more classes, as this method scales well, the latest model have 229 classes.
+
+Smaller mini-batch sizes were demonstrated to be very effective,
+using only ten images per step would work even if you have more than a hundred of classes,
+where as having at least an image from each class in each step would no nothing but make training ten times slower.
+Using ridiculously small sized mini-batches would accelerate reaching a stalled accuracy, in that case one had better
+use larger batches to overcome this, which the researcher calls ``Adaptive batch size''.
+The reason why this works, is that the time needed to process a number of images is proportional to number of images
+having ten times less images means ten times faster,
+but the effect of smaller batch size on accuracy (if any) is not linear.
+
+AdaDelta\autocite{zeiler2012adadelta} optimizer was used in this research. 
+
+\section{Recommendations}
+
+\begin{itemize}
+\item Models with more multiplication-accumulation operations and more trainable weights takes more time to train.
+For faster models, pick models with less multiplication-accumulation operations.
+\item For fine-tuning (for example, a single layer),
+number of multiplication-accumulation operations in the whole network is an important factor (due to forward propagation)
+where as multiplication-accumulation operations in the trainable part of the network is negligible.
+\item Number of trainable weights to be fine-tuned is also important factor.
+\item Shallow networks are faster to converge, but they got stuck in accuracy too soon.
+\item Deeper networks are more difficult and slower to train, but they can achieve higher accuracy after too long training time.
+\item Training time is linearly proportional to batch size (number of images in each step), but accuracy is not.
+This means one can fast-forward training by using smaller batch size.
+% in case of fine-tuning a pre-trained model, number of weights in last layer.
+\item Adaptive batch size and gradual layer inclusion exploit the above notes to achieve both higher accuracy and faster training time.
+\item For generic simple tasks, fine-tuning can reach 99\% accuracy in hours
+by fine-tuning a single layer on commodity \glspl{cpu} without special hardware nor expensive \glspl{gpu}.
+\item More difficult tasks would require training more layers.
+\item Weights in last layer can be treated as vectors in feature space, and cosine similarity can be applied to them.
+\item Weights can be crafted from feature-space vectors, this is specially useful for ``none'' class,
+as it's not feasible to have training data for all kinds of not-something (for example, not a car).
+\item Use trained \gls{cnn} on a simpler task, cleaning the dataset of a more difficult task,
+in the case of this research train a \gls{cnn} to identify car interior, and non-cars to remove them from dataset.
+\item A trained model can be expended to add a new class, using method of ``introduced confusion''.
+\item Over-sampling/under-sampling can be used to solve confusion.
+\end{itemize}
+

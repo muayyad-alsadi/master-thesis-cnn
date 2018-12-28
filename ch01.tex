@@ -1,0 +1,168 @@
+\chapter{Introduction}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+%    \begin{table}[H]
+%        \caption{delme}
+%            \begin{tabularx}{\textwidth}{|X|X|X|}
+%                \hline
+%                \textbf{Operating System} & \textbf{Browser} & \textbf{Compatibility} \\ \hline
+%                Ubuntu 14.04 & Chrome 43 & Compatible \\ \hline
+%                Android 4.4 & Opera Mobile Classic 12.1 & Not compatible \\ \hline
+%            \end{tabularx}
+%        Source: something
+%        \label{table:browser-compatibility}
+%    \end{table}
+
+\section{Problem Statement}
+
+Image recognition is an important topic of computer vision,
+that is becoming more relevant with the advent of smart phones equipped with cameras.
+
+Deep Convolutional Neural Networks technique can be used to solve Image recognition tasks,
+it achieves high accuracy but requires running expensive specialized hardware (like high-end \glspl{gpu})
+for long period of training time.
+When approaching the problem with constrained budget of limited time and limited computing power of typical commodity hardware,
+comes the importance of reusing existing trained networks using a technique called ``Knowledge Transfer''.
+Another constraint is to have an expandable solution that is capable to recognize new classes
+with incremental training time that is much less than starting training from scratch.
+
+\section{Application}
+
+Professionals stores, shops and agencies typically employ paid editors to maintain their listing
+of products or items properly described, tagged and categorized.
+Items are shown with stock quality photographs (sometimes too perfect and unrealistic).
+On the other hand \gls{c2c} e-Commerce platforms
+(like \href{http://opensooq.com}{OpenSooq.com}) depend on user-generated content,
+where some of the platform users (website visitors or mobile app users) intend to sell their used items.
+Different users describe their items differently with varying accuracy and quality, thus machine help is desired.
+
+Most views in OpenSooq come from mobile phones, due to wider adoption of smart phones,
+but number of items added using mobile platforms is still lagging behind laptops and desktops,
+because describing products on mobile phones is very difficult and inconvenient.
+
+Smart phones are equipped with microphones, and many are capable of ``voice typing''
+but variable accuracy of different languages limit their adoption.
+They are also equipped with cameras and most people already post pictures of items to be sold.
+Thus image recognition techniques are highly desired to describe these items in an accurate way.
+
+The proposed flow goes like this: a seller uses the mobile application of some \gls{c2c} platform,
+taking pictures of items to be sold, pictures got uploaded to the platform,
+platform servers use machine learning to tag those pictures with proper meta-data like item type
+and possibly product brand, model and generation (model year).
+The application of the problem addressed in this research is identifying car make, model and model year.
+Focusing on getting state-of-the-art accuracy and sub-second speed
+and reasonable amount of time to train and retrain using commodity hardware. 
+
+\section{Scope}
+
+The importance of image detection speed came from two factors:
+smoother user experience as it should be faster than user typing product details on keyboard,
+and reducing the cost of hosting the service, slower detection means more expensive computers with
+higher specifications (scale up) or running more computers of the service to serve more users in
+the same period of time (scale out).
+
+Another important factor is the time needed for the machine to learn about these images
+in order to build a model that is able to recognize these images.
+With more products, brands and models coming every year (or even smaller periods),
+the training time and cost should also be considered and reduced,
+for this purpose ``transfer learning'' is to be considered in this research.
+
+This research focus on studying methods for reusing pre-trained state-of-the-art models 
+using a technique called ``knowledge transfer''.
+Our approach has to be expandable to cover new classes, new products or models
+with least training time without sacrificing accuracy.
+This research tries to estimate or predict the cost of this process
+by studying factors that affect training time in different models or methods.
+
+\section{Methodology}
+
+The objective of this work is generic image recognition and not specific to the task of identifying car models.
+Moreover the researcher applied his approach to different well-known datasets and tasks in academia.
+Varying number of classes in those datasets (from two classes to two hundred classes)
+will also help studying how well does each procedure scale with more complex problems.
+For the sake of ``Knowledge Transfer'', different source pre-trained models are also studied.
+
+Research-specific datasets are obtained from images uploaded by users of \href{http://opensooq.com}{OpenSooq.com}.
+It is a well-recognized classified and \gls{c2c} platform in the country and the region.
+A dataset for the purpose of this research is generated by downloading images from items of specific popular
+categories knowing their brand and model and year.
+Those images are scaled to 300x300 to save space, no further pre-processing is done.
+
+All datasets are split into 90\% training and 10\% for test,
+and those test images not to be presented during training phase,
+so that used accuracy metrics are not affected by over-fitting.
+Several metrics are used to assess performance in a way that cover all possible aspects of the task being solved.
+Details about metrics are discussed in later sections.
+Each proposed procedure is studied and assessed separately, to show the effect of that specific procedure,
+and then assess the whole proposed solution.
+
+Instead of measuring training speed in number of steps,
+time is used because different models varies in complexity
+due to varying number of trainable parameters and number of arithmetic operations.
+For example two models reaching 90\% accuracy in 1000 epochs are not the same,
+because one might reach that in two hours and the other in two days.
+That's why ``Epoch Time'' (seconds per epoch) should be measured.
+
+\section{Contribution}
+
+This research study many state-of-the-art \glspl{convnet} and best ways on how to re-use them for different tasks.
+This research have many contributions including:
+
+\begin{itemize}
+\item a formula to evaluate which model designs are more suitable for transfer learning.
+\item adaptive batch size method to accelerate learning or transfer.
+\item gradual layer inclusion to accelerate reaching better accuracy.
+\item study different ways to get a model without having a sufficient training dataset.
+\item introduce the concept of ``Jointly Activated Classes'' using cosine similarity on the columns of the weights matrix in \gls{ann} and its applications.
+\item introduce a method for category adaptation using weight manipulation.
+\item introduce a method to inject ``none'' class using weight manipulation.
+\item introduce a method to clean a noisy dataset using a model trained to clean the dataset.
+\item introduce a method to extend a trained model to add a new class by crafting weights introducing confusion.
+\item accelerate resolving confusion using over-sampling/under-sampling.
+\item application of combined above methods to identify vehicle make-model-year for its image.
+\end{itemize}
+
+This research introduces the following terms:
+\begin{description}
+\item [Knowledge donor model:] is a previously trained model on source task (using different dataset)
+\item [Knowledge acceptor model:] A new model that is reconstructed or derived or extended to perform
+    target task using knowledge transferred from the donor model. This model need to be fine-tuned
+    or re-trained before being useful.
+% \item [Refitted model or Transfer-initialized partially-trained acceptor model:] use transfer learning to initialize acceptor model from donor model then partially re-train specific parts of the weights in the model, keeping other weights constant. 
+% \item [Transfer-initialized fully-trained acceptor model:] use transfer learning to initialize acceptor model then fully re-train it.
+% \item [Refit-initialized fully-trained acceptor model] TBD
+% \item [asymmetric confusion related] TBD
+% \item [Confusion penalty matrix:] a matrix having \(p_{ij}\) a factor for confusing class i with class j, value of 0.0 means it’s ok to confuse the two classes. Value of 1.0 it’s completely not ok to confuse them.
+% \item [Softmax cross entropy with correction factor matrix] TBD
+\end{description}
+
+% \subsection{Metrics}
+
+% There two key theoretical estimates of model speed: 
+% \begin{itemize}
+% \item Number of parameters to be tuned in the Neural Network (weights and bias values) during training phase.
+% \item Number of arithmetic operations done in inference, usually measured in million multi-adds or Million Multiply-Accumulates (MMAc).
+% \end{itemize}
+
+% Each batch have a training sample and a test sample, the later is used to measure performance metrics like accuracy, and after all batches an evaluation sample is used to measure performance metrics. The use of items that were never part of training process protect us from overfitting.
+
+% This research introduce and study the following metrics to measure transfer, learning performance to compare two acceptor models:
+% \begin{itemize}
+% \item Relative performance of the acceptor model compared to the donor model (each in its own domain)
+% \item Relative performance of the acceptor model compared to transfer-initialized model (partially trained model) for the same amount of epochs (both have same domain)
+% \end{itemize}
+
+
+\section{Thesis Organization}
+
+This thesis is divided into five chapters.
+After this introduction chapter, comes the \textbf{``Background''} chapter
+which discuss historical researches and introduce terminologies and concepts
+used through out this thesis and needed in order to understand it.
+Next comes \textbf{``Literature Review''},
+where several related researches in the field are discussed including state-of-the-art models.
+The \textbf{``Implementation''} chapter lists trials, experiments and stages of implementing proposed solutions in chronological order.
+The last chapter \textbf{``Discussion and Recommendations''} formulate the proposed solution and researcher recommendations
+and discuss them and how good they fit the addressed task of this work.
+

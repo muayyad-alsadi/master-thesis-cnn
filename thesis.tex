@@ -1,0 +1,334 @@
+%% using template from bare_conf.tex V1.3 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%
+%\documentclass[10pt, a4paper, onecolumn]{../IEEEtran}
+%\documentclass[12pt, a4paper, twoside]{report}
+\documentclass[12pt, a4paper, oneside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{datetime}
+
+% \usepackage{cite}
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+\usepackage[final]{pdfpages}
+
+
+\usepackage[american]{babel}
+\usepackage{csquotes}
+% http://ftp.cc.uoc.gr/mirrors/CTAN/macros/latex/contrib/biblatex-contrib/biblatex-apa/biblatex-apa.pdf
+\usepackage[style=apa,natbib=true]{biblatex}
+% \usepackage[style=ieee,natbib=true]{biblatex}
+
+% \bibliographystyle{apalike}
+% \newcommand{\autocity}[1]{\ref{#1}}
+
+% References to be like APA recommendations
+\usepackage{apalike}
+% in case of conflict might use the line below
+% \let\bibhang\relax
+
+\DeclareLanguageMapping{american}{american-apa}
+
+% trials
+%\DeclareFieldFormat{titlecase}{\MakeSentenceCase{#1}}
+%\DeclareFieldFormat{titlecase}{#1}
+%\DeclareFieldFormat{journaltitle}{\MakeCapital{\mkbibemph{#1}}XYZ,} % italic journal title with comma
+%\DeclareFieldFormat[inbook,thesis]{title}{\MakeCapital{\mkbibemph{#1}}XXX\addperiod} % italic title with period
+%\DeclareFieldFormat[article]{title}{#1} % title of journal article is printed as normal text
+
+
+\bibliography{ref}
+
+
+\input{formating}
+
+
+% Registered trademark sign
+\usepackage{textcomp}
+
+
+
+\usepackage{graphicx}
+\graphicspath{{./figs/}}
+\DeclareGraphicsExtensions{.pdf,.jpg,.jpeg,.png}
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+
+% \usepackage{subfig}
+\usepackage[singlelinecheck=false]{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{afterpage}
+\usepackage{pdflscape}
+
+\usepackage{rotating}
+
+% *** MATH PACKAGES ***
+% Allow multi-line math equations
+\usepackage{amsthm}
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+% *** ALIGNMENT PACKAGES ***
+%
+\usepackage{array}
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+\usepackage{multirow,tabularx}
+\usepackage{tabularx}           % Customized table formatting
+\usepackage{environ}            % Used to define custom table environment
+\usepackage{booktabs}
+\usepackage{makecell}
+
+% to be able to do \adjustwidth
+% https://ctan.org/pkg/changepage
+\usepackage{changepage}
+\usepackage{framed}
+\usepackage{mdframed}
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+%\usepackage{eqparbox}
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+%\usepackage[caption=false,font=footnotesize]{subfig}
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+\usepackage{aliascnt}
+\usepackage{float}
+\newaliascnt{eqfloat}{equation}
+\newfloat{eqfloat}{h}{eqflts}
+\floatname{eqfloat}{Equation}
+
+\newcommand*{\ORGeqfloat}{}
+\let\ORGeqfloat\eqfloat
+\def\eqfloat{%
+  \let\ORIGINALcaption\caption
+  \def\caption{%
+    \addtocounter{equation}{-1}%
+    \ORIGINALcaption
+  }%
+  \ORGeqfloat
+}
+
+\floatstyle{ruled}
+\newfloat{program}{thp}{lop}[section]
+\floatname{program}{Program}
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+%\usepackage{stfloats}
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+% http://ftp.cc.uoc.gr/mirrors/CTAN/macros/latex/contrib/hyperref/doc/manual.html#x1-90003.5
+\usepackage[bookmarks,colorlinks=true,urlcolor=blue,linkcolor=black,citecolor=black]{hyperref}
+
+
+% \usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+% must be after \usepackage{hyperref}
+\usepackage[acronym,toc]{glossaries}
+\makenoidxglossaries
+% \makeglossaries
+\input{acronyms}
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\title{Image recognition by knowledge transfer using deep convolutional neural network}
+\author{Muayyad Saleh Alsadi \\ Princess Sumaya University for Technology}
+\date{June, 2017}
+
+\begin{document}
+
+\input{cover}
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+% \newcommand\chap[1]{\newpage \phantomsection \addcontentsline{toc}{chapter}{#1}}
+
+\newcommand\chap[1]{%
+  \chapter*{\hfill #1 \hfill}%
+  \addcontentsline{toc}{chapter}{#1}
+}
+
+\newcommand\specialchap[1]{%
+  \newpage \phantomsection
+  \addcontentsline{toc}{chapter}{#1}
+}
+
+\specialchap{Authorization}
+\begin{center}
+\bfseries
+\fontsize{14pt}{1em}\selectfont
+Princess Sumaya University for Technology\\
+King Abdullah I School of Graduate Studies and Scientific Research\\
+Authorization Form
+\end{center}
+
+\noindent
+I, Muayyad Saleh Mahmoud Alsadi, authorize Princess Sumaya University for
+Technology to supply copies of my Thesis/Dissertation to libraries or 
+establishments or individual on request, according to the Regulations of 
+Princess Sumaya University for Technology.
+
+\noindent
+\textbf{Signature:}\\ \\
+\textbf{Date:}
+
+\input{committee}
+
+\input{abstract}
+
+\chap{Dedication}
+To my mother and father.
+
+To my wife and my family.
+
+\begin{center}
+I dedicate this work.
+\end{center}
+
+\vspace{24pt}
+{\hfill\bfseries Muayyad Alsadi\par}
+
+
+% \chap{Declaration}
+% I declare that..
+
+\chap{Acknowledgments}
+
+I wish to express my deep sense of gratitude to my supervisor
+Prof. Arafat Awajan, for his outstanding guidance and support which helped me in completing my thesis work.
+I would also like to thank Dr. Rawan Ghnemat, for her valuable assistance and help to fulfill my work.
+
+\vspace{24pt}
+{\hfill\bfseries Muayyad Alsadi\par}
+
+
+
+\tableofcontents
+
+\specialchap{List of Tables}
+
+\listoftables
+
+\specialchap{List of Figures}
+
+\listoffigures
+
+% \chap{List of Appendices}
+
+\NewEnviron{doctable}[2]{%
+    \begin{table*}[!htbp]
+        \centering
+        \begin{tabular}{#2}%
+            \toprule
+            \BODY
+            \bottomrule
+        \end{tabular}
+    \end{table*}
+}
+
+\newglossarystyle{docstyle}
+{%
+    \renewenvironment{theglossary}
+    {%
+        \doctable
+        {1} { ll }
+        Abbreviation & Meaning \\
+        \midrule
+    }{
+        \enddoctable
+    }
+    \renewcommand{\glossarysection}[2][]{}
+    \renewcommand*{\glossaryheader}{}%
+    % Don't do anything between letter groups
+    \renewcommand*{\glsgroupheading}[1]{}%
+    \renewcommand*{\glsgroupskip}{}%
+    % Set display for each the acronym entry
+    \renewcommand{\glossentry}[2]{%
+        \glstarget{##1}{\glsentryshort{##1}}% short form
+        &
+        \glsentrylong{##1}% long form
+        \\% end of row
+    }%
+}
+
+\chap{List of Abbreviations}
+\printnoidxglossary[type=\acronymtype, style=docstyle, title=List of Abbreviations, toctitle=List of Abbreviations]
+
+\input{ch01}
+\input{ch02}
+\input{ch03}
+\input{ch04}
+\input{ch05}
+
+% References
+\chap{References}
+\printbibliography[heading=none]
+
+
+
+%\appendix
+%\chapter{References}
+%\bibliography{ref}
+
+%\bibliographystyle{../IEEEtran}
+% \bibliographystyle{unsrt}
+%\bibliographystyle{plain}
+% argument is your BibTeX string definitions and bibliography database(s)
+% \bibliography{ref}
+
+
+\specialchap{Abstract in Arabic}
+
+%استعمال الشبكات العصبونية الملتفة ونقل المعرفة في التعرف على الصور
+
+\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{abstract-ar.pdf}
+
+
+% \appendix
+% \chapter{Appendix Title}
+% \input{appendix}
+
+
+\end{document}

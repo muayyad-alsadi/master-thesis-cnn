@@ -1,0 +1,48 @@
+\specialchap{Abstract}
+{\fontsize{16pt}{24pt}\selectfont
+\begin{center}\bfseries
+Using Deep Convolutional Neural Networks and Knowledge Transfer for Image Recognition
+
+By\\
+Muayyad Alsadi
+
+Supervisor\\
+Prof. Arafat Awajan
+
+Abstract
+\end{center}
+}
+
+Image recognition is a topic of ``Computer Vision''
+that aims to find and identify one or several specified objects, object classes, features or activities
+in a given input image or video frame, even if it's partially obstructed from view.
+Deep Convolutional Neural Networks is the-state-of-the-art technique for Image recognition,
+but it requires a lot of training time and computing power to converge.
+
+This thesis approaches the problem of image recognition with constrained budget in terms of
+limited training time and limited computing power of typical commodity hardware.
+Another imposed constraint is to have an expandable solution.
+
+``Knowledge Transfer'' technique is used to reuse publicly available off-the-shelf trained models.
+Several techniques are introduced to make it feasible, accelerate the process and make it expandable.
+
+There are several applications for image recognition in different domains, such as
+Face recognition, Optical Character Recognition, Manufacturing automatic inspection and Quality Control,
+Medical diagnosis, and Autonomous vehicle related tasks such as Pedestrian detection.
+The application discussed in this thesis is the task of identifying
+brand, model and year of an image of a used car uploaded by a user of an e-Commerce service.
+The importance of this application comes from the raising popularity of smart phones
+equipped with cameras, where snapping a picture is far more convenient than typing description.
+
+Trainable parameters (weights) are transferred from pre-trained ImageNet model into a model
+that gets fine-tuned on a task of cleaning up noisy input dataset.
+Then another transfer on a second model is used to identify most appropriate car models based on their market share,
+and then it can be expanded to include more car models using a special proposed procedure.
+
+Accuracy of more than 81\%  was achieved identifying 229 different car models,
+by re-using off-the-shelf Inception V1 trained to solve ImageNet one thousand classes task having
+accuracy of 69.8\% in that task.
+
+To make sure the proposed method is generic and not domain specific,
+several known academic tasks are also evaluated.
+
