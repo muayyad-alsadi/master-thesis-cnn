@@ -10,6 +10,8 @@ I've used [this LaTeX template](https://github.com/muayyad-alsadi/psut-latex-the
 
 * Presentation: [download](https://raw.githubusercontent.com/muayyad-alsadi/master-thesis-cnn/master/presentation.pdf) | [view](https://github.com/muayyad-alsadi/master-thesis-cnn/blob/master/presentation.pdf)
 * Thesis: [download](https://raw.githubusercontent.com/muayyad-alsadi/master-thesis-cnn/master/thesis.pdf) | [view](https://github.com/muayyad-alsadi/master-thesis-cnn/blob/master/thesis.pdf)
+* Arabic Abstract: [download](https://raw.githubusercontent.com/muayyad-alsadi/master-thesis-cnn/master/abstract-ar.pdf) | [view](https://github.com/muayyad-alsadi/master-thesis-cnn/blob/master/abstract-ar.pdf)
+
 
 ## Latex
 
